@@ -1,0 +1,5 @@
+whisper
+torch
+llama-cpp-python
+pyttsx3
+flask

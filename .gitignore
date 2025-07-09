@@ -1,0 +1,17 @@
+# Ignore Python virtual environment
+venv/
+
+# Bytecode
+__pycache__/
+*.py[cod]
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Audio/test files
+*.wav
+*.mp3
+
+# Other
+.env
