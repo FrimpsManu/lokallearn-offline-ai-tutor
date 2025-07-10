@@ -1,5 +1,11 @@
 # Whisper STT module
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 import whisper
+from lokallearn.llm.local_llm import get_answer_from_llm
+
 
 # Load the tiny model (offline)
 model = whisper.load_model("tiny")
@@ -9,15 +15,6 @@ result = model.transcribe("test.wav")
 question = result["text"]
 print("You said:", question)
 
-# Simulated LLM response
-def get_answer_from_llm(prompt):
-    prompt = prompt.lower()  # make lowercase for easier matching
-
-    if "5 times 6" in prompt:
-        return "The answer is 30"
-    
-    return "Sorry, I don't know yet."
-
-# Get and print the answer
+# Use real LLM
 answer = get_answer_from_llm(question)
 print("AI Answer:", answer)
