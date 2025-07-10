@@ -1,15 +1,12 @@
-# Local LLM interface
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
-# Load model + tokenizer once
-model_name = "microsoft/phi-2"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name, device_map="cpu")
 
-def get_answer_from_llm(prompt):
-    input_ids = tokenizer(prompt, return_tensors="pt").input_ids
-    with torch.no_grad():
-        outputs = model.generate(input_ids, max_new_tokens=50)
-    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    return response.replace(prompt, "").strip()
+def load_llm_model():
+    model_name = "microsoft/phi-2"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+    return pipeline("text-generation", model=model, tokenizer=tokenizer)
+
+def get_llm_response(pipeline, prompt):
+    result = pipeline(prompt, max_new_tokens=60)[0]["generated_text"]
+    return result
